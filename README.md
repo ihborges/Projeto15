@@ -2,7 +2,7 @@
 
 ## Objetivo do Projeto
 
-Aplicar experimentalmente a definição matemática formal da **Notação Θ (Teta)**, vista na Aula 4. O programa executa um algoritmo quadrático e prova, na prática, que o número de operações cresce na mesma proporção que \(n^2\), encontrando numericamente as constantes \(c_1\), \(c_2\) e o ponto de estabilização \(n_0\).
+Aplicar experimentalmente a definição matemática formal da **Notação Θ (Teta)**, vista na Aula 4. O programa executa um algoritmo quadrático e demonstra, na prática, que o número de operações cresce na mesma proporção que n², encontrando numericamente as constantes c₁, c₂ e o ponto de estabilização n₀.
 
 ---
 
@@ -10,31 +10,25 @@ Aplicar experimentalmente a definição matemática formal da **Notação Θ (Te
 
 ### A Definição Formal de Θ
 
-Uma função \(T(n)\) pertence a \(\Theta(n^2)\) se existem constantes positivas **\(c_1\), \(c_2\)** e um inteiro **\(n_0\)** tais que:
+Uma função T(n) pertence a **Θ(n²)** se existem constantes positivas c₁, c₂ e um inteiro n₀ tais que:
 
-\[
-0 \le c_1 \cdot n^2 \le T(n) \le c_2 \cdot n^2, \quad \forall n \ge n_0
-\]
+**0 ≤ c₁ · n² ≤ T(n) ≤ c₂ · n², para todo n ≥ n₀**
 
-Em palavras simples: a partir de um ponto \(n_0\), o trabalho real do algoritmo (\(T(n)\)) fica **espremido** entre um piso (\(c_1 n^2\)) e um teto (\(c_2 n^2\)).
+Em palavras simples: a partir de um ponto n₀, o trabalho real do algoritmo, T(n), fica **espremido** entre um piso (c₁ · n²) e um teto (c₂ · n²).
 
 ### O Algoritmo Escolhido: Selection Sort
 
-O **Selection Sort** foi escolhido porque seu número de comparações é **exato** e previsível, independentemente da entrada. A fórmula é:
+O **Selection Sort** foi escolhido porque seu número de comparações é **exato** e previsível, independentemente da ordem inicial dos elementos da entrada. A fórmula é:
 
-\[
-T(n) = \frac{n(n-1)}{2} = \frac{n^2 - n}{2}
-\]
+**T(n) = n(n − 1) / 2 = (n² − n) / 2**
 
 ### A Razão de Convergência R(n)
 
-Dividindo o trabalho real pelo quadrado do tamanho, obtemos a razão:
+Dividindo o trabalho real pelo quadrado do tamanho da entrada, obtemos a razão:
 
-\[
-R(n) = \frac{T(n)}{n^2} = \frac{1}{2} \cdot \left(1 - \frac{1}{n}\right)
-\]
+**R(n) = T(n) / n² = ½ · (1 − 1/n)**
 
-À medida que \(n\) cresce, \(R(n)\) converge para **0,5**. É essa estabilização que nos permite escolher as constantes do "túnel".
+À medida que n cresce, R(n) converge para **0,5**. É essa estabilização que nos permite escolher as constantes do intervalo entre o limite inferior e o superior.
 
 ---
 
@@ -42,36 +36,50 @@ R(n) = \frac{T(n)}{n^2} = \frac{1}{2} \cdot \left(1 - \frac{1}{n}\right)
 
 O código em C implementa a definição matemática da seguinte forma:
 
-1. **Mede o mundo real (\(T(n)\)):** Executa o Selection Sort para \(n = 10, 50, 100, 500, 1000, 2000\) e conta as comparações.
-2. **Constrói o túnel (\(c_1 n^2\) e \(c_2 n^2\)):** Adota \(c_1 = 0,25\) (piso) e \(c_2 = 0,50\) (teto).
-3. **Verifica a desigualdade:** Para cada \(n\), checa se \(c_1 n^2 \le T(n) \le c_2 n^2\).
-4. **Descobre o \(n_0\):** O programa guarda o **primeiro** \(n\) em que a regra é satisfeita.
+1. **Mede o trabalho real (T(n)):** executa o Selection Sort para n = 10, 50, 100, 500, 1000 e 2000 e conta as comparações.
+2. **Constrói o intervalo (c₁ · n² e c₂ · n²):** adota c₁ = 0,25 como limite inferior e c₂ = 0,50 como limite superior.
+3. **Verifica a desigualdade:** para cada valor de n, verifica se a condição é satisfeita:
 
-**Resultado Esperado:**
-O programa encontra **\(n_0 = 10\)**, pois em \(n=10\), \(R(10) = 0,45\), que já está entre 0,25 e 0,50. Como a razão só cresce (tendendo a 0,5), todos os \(n\) seguintes também satisfazem a regra, provando que \(T(n) \in \Theta(n^2)\).
+   **c₁ · n² ≤ T(n) ≤ c₂ · n²**
+
+4. **Determina o n₀:** identifica o primeiro valor de n a partir do qual a desigualdade permanece válida para todos os valores seguintes.
+
+### Resultado Esperado
+
+O programa encontra **n₀ = 10**, pois, para n = 10:
+
+**R(10) = T(10) / 10² = 45 / 100 = 0,45**
+
+Esse valor está entre os limites escolhidos:
+
+**0,25 ≤ 0,45 ≤ 0,50**
+
+Como a razão R(n) cresce e se aproxima de 0,5 por valores inferiores, a desigualdade permanece válida para todo n ≥ 10. Portanto:
+
+**T(n) ∈ Θ(n²)**
 
 ---
 
 ## Entendendo a Tabela de Saída
 
-A tabela gerada pelo programa é a **prova visual** da Notação Θ. Cada coluna representa um pedaço da definição formal:
+A tabela gerada pelo programa é a **representação visual** da Notação Θ. Cada coluna representa um elemento da definição formal.
 
-| Coluna | Significado | Exemplo (para n = 100) |
-| :--- | :--- | :--- |
-| **`n`** | O tamanho da entrada (tamanho do problema). | 100 |
-| **`T(n)`** | O **Trabalho Real**. O número exato de comparações que o algoritmo fez. | 4.950 |
-| **`n²`** | A régua base quadrática (\(n \times n\)). | 10.000 |
-| **`R(n)`** | A **Razão** (\(T(n) / n^2\)). Mostra a taxa de esforço. Se ela se estabiliza em um número (0,5), prova que o algoritmo é quadrático. | 0,4950 |
-| **`c₁n²`** | O **Limite Inferior** (Piso do túnel). O trabalho real nunca pode ser menor que isso. | 2.500 (0,25 × 10.000) |
-| **`c₂n²`** | O **Limite Superior** (Teto do túnel). O trabalho real nunca pode ser maior que isso. | 5.000 (0,50 × 10.000) |
-| **`Θ?`** | O **Veredito**. Testa a desigualdade: `c₁n² ≤ T(n) ≤ c₂n²`. Se verdadeiro, imprime `[OK]`. | `[OK]` (pois 2.500 ≤ 4.950 ≤ 5.000) |
+| Coluna | Significado | Exemplo para n = 100 |
+|:---|:---|---:|
+| **n** | Tamanho da entrada, ou seja, o tamanho do problema. | 100 |
+| **T(n)** | **Trabalho real:** número exato de comparações realizadas pelo algoritmo. | 4.950 |
+| **n²** | Referência quadrática, calculada por n × n. | 10.000 |
+| **R(n)** | **Razão:** trabalho real dividido por n². | 0,4950 |
+| **c₁n²** | **Limite inferior:** piso do intervalo. | 2.500 (0,25 × 10.000) |
+| **c₂n²** | **Limite superior:** teto do intervalo. | 5.000 (0,50 × 10.000) |
+| **Θ?** | Verifica se c₁n² ≤ T(n) ≤ c₂n². Se verdadeiro, imprime `[OK]`. | `[OK]` |
 
 ---
 
 ## Tabela de Resultados (Saída do Programa)
 
-| n | T(n) | n² | R(n)=T(n)/n² | c₁n²=0,25n² | c₂n²=0,50n² | Θ? |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| n | T(n) | n² | R(n) = T(n)/n² | c₁n² = 0,25n² | c₂n² = 0,50n² | Θ? |
+|---:|---:|---:|---:|---:|---:|:---:|
 | 10 | 45 | 100 | 0,450000 | 25,00 | 50,00 | OK |
 | 50 | 1.225 | 2.500 | 0,490000 | 625,00 | 1.250,00 | OK |
 | 100 | 4.950 | 10.000 | 0,495000 | 2.500,00 | 5.000,00 | OK |
@@ -79,5 +87,28 @@ A tabela gerada pelo programa é a **prova visual** da Notação Θ. Cada coluna
 | 1000 | 499.500 | 1.000.000 | 0,499500 | 250.000,00 | 500.000,00 | OK |
 | 2000 | 1.999.000 | 4.000.000 | 0,499750 | 1.000.000,00 | 2.000.000,00 | OK |
 
-**Conclusão do Experimento:** 
-Observa-se que \(R(n)\) cresce de \(0,45\) até \(0,49975\) (aproximando-se de \(0,5\)). A coluna de veredito `[OK]` prova que a desigualdade \(0,25n^2 \le T(n) \le 0,50n^2\) é **verdadeira para todo \(n \ge 10\)**. Portanto, **\(n_0 = 10\)**, confirmando matematicamente que o algoritmo pertence a **\(\Theta(n^2)\)**.
+---
+
+## Conclusão do Experimento
+
+Observa-se que R(n) cresce de 0,45 até 0,49975, aproximando-se de 0,5 à medida que o tamanho da entrada aumenta.
+
+A coluna de veredito `[OK]` demonstra que a desigualdade é satisfeita para todos os valores avaliados:
+
+**0,25n² ≤ T(n) ≤ 0,50n²**
+
+A fórmula matemática também comprova que essa desigualdade é verdadeira para todo n ≥ 10. Portanto, as constantes escolhidas são:
+
+- **c₁ = 0,25** — limite inferior;
+- **c₂ = 0,50** — limite superior;
+- **n₀ = 10** — ponto a partir do qual a desigualdade é válida.
+
+Conclui-se matematicamente que o algoritmo Selection Sort pertence à classe de complexidade quadrática:
+
+**T(n) ∈ Θ(n²)**
+
+O experimento demonstra, na prática, como as constantes assintóticas permitem validar a taxa de crescimento do número de operações de um algoritmo.
+
+---
+
+*Projeto — Análise e Complexidade de Algoritmos | Linguagem C*
