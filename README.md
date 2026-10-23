@@ -1,5 +1,3 @@
-# Validador Numérico das Constantes Assintóticas
-
 # Projeto 15: Validador Numérico das Constantes Assintóticas (c e n₀)
 
 ## Objetivo do Projeto
