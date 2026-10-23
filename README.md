@@ -1,7 +1,5 @@
 # Validador Numérico das Constantes Assintóticas
 
-Aqui está o arquivo `README.md` completo, formatado em Markdown (pronto para você copiar e colar no GitHub, no VS Code ou entregar junto com o projeto). Ele une a explicação do projeto com o detalhamento da tabela.
-
 ---
 
 # Projeto 15: Validador Numérico das Constantes Assintóticas (c e n₀)
